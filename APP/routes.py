@@ -11,3 +11,8 @@ from App import db
 def home():
     print('called home')
     return render_template('home.html')
+
+@app.route('/venues')
+def venue():
+    print('called venue')
+    return 'Venues'
