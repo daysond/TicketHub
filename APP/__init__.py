@@ -49,6 +49,7 @@ def insertDummyData():
                          venue_id=models.Venue.query.filter_by(
                              name='Rogers Center').first().id,
                          description='Sat 6:00pm',
+                         image_url = 'https://readdork.com/wp-content/uploads/2022/10/Ed-Sheeran-Tour-Cropped-2023.jpg',
                          emc_id=models.EMC.query.filter_by(name='INK EVENTS').first().id),
 
             models.Event(date=datetime.date(2023, 6, 18), concert_id=models.Concert.query.filter_by(
@@ -56,6 +57,7 @@ def insertDummyData():
                          venue_id=models.Venue.query.filter_by(
                              name='Rogers Center').first().id,
                          description='Sun 6:00pm',
+                         image_url = 'https://readdork.com/wp-content/uploads/2022/10/Ed-Sheeran-Tour-Cropped-2023.jpg',
                          emc_id=models.EMC.query.filter_by(name='INK EVENTS').first().id),
 
             models.Event(date=datetime.date(2023, 5, 18),
@@ -64,6 +66,7 @@ def insertDummyData():
                          venue_id=models.Venue.query.filter_by(
                              name='Sony Center').first().id,
                          description='Fri 8:00pm',
+                         image_url = 'https://rebeltoronto.com/wp-content/uploads/2022/05/Alan_Walker_Post.jpg',
                          emc_id=models.EMC.query.filter_by(
                 name='INK EVENTS').first().id
             ),
@@ -73,6 +76,7 @@ def insertDummyData():
                 venue_id=models.Venue.query.filter_by(
                 name='Air Canada Center').first().id,
                 description='Sat 8:00pm',
+                image_url = 'https://newsroom.mohegansun.com/wp-content/uploads/2019/02/Chainsmokers_ADMAT_COLOR_crop-300x292.jpg',
                 emc_id=models.EMC.query.filter_by(
                 name='GTA EVENTS').first().id
             )

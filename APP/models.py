@@ -58,7 +58,8 @@ class Event(db.Model):
     description = db.Column(db.String(length=1024),
                             nullable=False, unique=True)
     availablePercentage = db.Column(db.Integer, nullable=True, default=100)
-
+    image_url = db.Column(db.String(length=1024), nullable=False)
+    
     venue_id = db.Column(db.Integer, db.ForeignKey(Venue.id))
     venue = db.relationship("Venue", back_populates='events')
 

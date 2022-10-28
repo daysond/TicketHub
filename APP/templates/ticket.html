@@ -1,0 +1,14 @@
+
+{% extends 'base.html'%}
+{% block title %}
+   Purchase Ticket
+{% endblock %}
+
+{% block content %}
+<form method="POST">
+    {{ purchase_form.hidden_tag() }}
+    <h4 class = 'text-center'>Are you sure you want to buy ticket for {{event.concert.name}} ? </h4>
+    <input id="purchased_ticket" name="purchased_ticket" type="hidden" value= {{event.id}}>
+    {{purchase_form.submit(class="btn btn-outline-success btn-block")}}
+</form>
+{%endblock%}
