@@ -5,10 +5,48 @@
 {% endblock %}
 
 {% block content %}
+<h4 class = 'text-center'>Are you sure you want to buy ticket for {{event.concert.name}} ? </h4>
+<div class="center" style='width:150px; margin: 40px auto'>
 <form method="POST">
     {{ purchase_form.hidden_tag() }}
-    <h4 class = 'text-center'>Are you sure you want to buy ticket for {{event.concert.name}} ? </h4>
-    <input id="purchased_ticket" name="purchased_ticket" type="hidden" value= {{event.id}}>
+    <input id="purchase_ticket" name="purchase_ticket" type="hidden" value= {{event.id}}>
     {{purchase_form.submit(class="btn btn-outline-success btn-block")}}
+
+    {% for seating in event.seatings|sort(attribute='price') %}
+        <br>
+        <h4>{{seating.venue_section.sec_name}} ${{seating.price}}</h4>
+        <button id="minus_{{loop.index}}">−</button>
+        <input type="number"  name={{seating.id}} value="0" id="input_{{loop.index}}" min="0" max="4">
+        <button id="plus_{{loop.index}}">+</button>
+        <br>
+    {%endfor%}
+
 </form>
+</div>
+<meta id="numSeats" data-len="{{event.seatings|length}}">
+<script>
+    var numSeats = {{event.seatings|length|safe}}
+    for(let i = 1; i<numSeats+1;i++) {
+        const minusButton = document.getElementById('minus_'+i);
+        const plusButton = document.getElementById('plus_'+i);
+        const inputField = document.getElementById('input_'+i);
+
+        minusButton.addEventListener('click', event => {
+            event.preventDefault();
+            const currentValue = Number(inputField.value) || 0;
+            if(currentValue>0)
+                inputField.value = currentValue - 1;
+            });
+    
+        plusButton.addEventListener('click', event => {
+            event.preventDefault();
+            const currentValue = Number(inputField.value) || 0;
+            if(currentValue<4)
+                inputField.value = currentValue + 1;
+            });
+    }
+
+
+</script>
+
 {%endblock%}

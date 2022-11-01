@@ -1,14 +1,21 @@
 
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
+from flask_bcrypt import Bcrypt
+from flask_login import LoginManager
 import datetime
 
 app = Flask(__name__)
 db = SQLAlchemy()
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database.db'
 app.config['SECRET_KEY'] = 'cf2ad42be998f16d0c0e6596'
+app.config['STRIPE_PUBLIC_KEY'] = 'pk_test_KMCerPRQaKzAv45qvFR58Vnl00Ccaf8NiN'
+app.config['STRIPE_SECRET_KEY'] = 'sk_test_Gaah29dliX1UUMIe3a6OAqqO00OQIP9EWO'
 db.init_app(app)
-
+bcrypt = Bcrypt(app)
+login_manager = LoginManager(app)
+login_manager.login_view = 'login'
+login_manager.login_message_category = 'info'
 #Routes and model
 from App import routes
 from App import models
