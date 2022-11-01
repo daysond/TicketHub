@@ -10,8 +10,8 @@ app.config['SECRET_KEY'] = 'cf2ad42be998f16d0c0e6596'
 db.init_app(app)
 
 #Routes and model
-from App import routes
-from App import models
+from APP import models, routes
+from APP import models
 
 def insertDummyData():
     with app.app_context():
