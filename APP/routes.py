@@ -90,6 +90,9 @@ def purchase_ticket(event_id):
         
     return render_template('ticket.html', purchase_form = purchase_form, event = event)
 
+@app.route('/checkout', methods=['GET','POST'])
+def checkout():
+    return render_template('checkout.html')
 """
 implement a shopping cart, check out, payment,  ect 
 
