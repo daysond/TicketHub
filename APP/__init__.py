@@ -34,10 +34,11 @@ def insertDummyData():
             models.EMC(name='GTA EVENTS', balance=0),
 
             models.Venue(name='Air Canada Center',
-                         address='40 Bay St., Toronto'),
-            models.Venue(name='Sony Center', address='1 Front St E, Toronto'),
+                         address='40 Bay St., Toronto',
+                         image_url = 'https://hub.musicpeaks.com/sites/default/files/Air%20Canada%20Centre%2C%20Toronto.jpeg'),
+            models.Venue(name='Sony Center', address='1 Front St E, Toronto', image_url = 'https://mapio.net/images-p/12240077.jpg'),
             models.Venue(name='Rogers Center',
-                         address='1 Blue Jays Way, Toronto'),
+                         address='1 Blue Jays Way, Toronto', image_url = 'https://img.mlbstatic.com/mlb-images/image/private/t_16x9/t_w2208/mlb/i6su9anj3vijyern9bao.jpg'),
 
             models.Concert(name='Ed Sheeran + - = ÷ x Tour',
                            artist='Ed Sheeran'),
@@ -73,7 +74,7 @@ def insertDummyData():
                          venue_id=models.Venue.query.filter_by(
                              name='Sony Center').first().id,
                          description='Fri 8:00pm',
-                         image_url = 'https://rebeltoronto.com/wp-content/uploads/2022/05/Alan_Walker_Post.jpg',
+                         image_url = 'https://edm.com/.image/ar_1:1%2Cc_fill%2Ccs_srgb%2Cfl_progressive%2Cq_auto:good%2Cw_1200/MTg5Mzg0MzcyODg4MDIwODg1/279912798_554688012687989_7371472378482916394_n-e1651905549299-696x522.jpg',
                          emc_id=models.EMC.query.filter_by(
                 name='INK EVENTS').first().id
             ),

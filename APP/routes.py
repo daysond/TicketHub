@@ -71,17 +71,15 @@ def purchase_ticket(event_id):
     if request.method == 'POST':
       
         event_id = request.form.get("purchase_ticket")
-        user = current_user
 
         cart = [] #list of tickets
+        
         for seating in event.seatings:
-            
             seating_qty = int(request.form.get(str(seating.id)))
             
             for i in range(0, seating_qty):
-                #TODO: USER MIGHT BE NULL!!!
                 print(f'buying seat id {seating.id} {i} /{seating_qty}')
-                cart.append(Ticket(seating_id = seating.id, user_id = user.id))
+                cart.append(Ticket(seating_id = seating.id, user_id = current_user.id))
                 
             print(f"bought {seating_qty} ticket for seating {seating.venue_section.sec_name}")
             seating.seats_sold = seating.seats_sold + seating_qty

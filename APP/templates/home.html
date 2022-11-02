@@ -13,10 +13,9 @@
     </div>
     <div class="product-device box-shadow d-none d-md-block"></div>
     <div class="product-device product-device-2 box-shadow d-none d-md-block"></div>
-
 </div>
 
-<h2 style='margin-left:20px;'>Feature events</h2>
+<h2 style='margin-left:20px;'>Feature Events</h2>
 <div class="row" style='margin-top:20px; margin-left:20px; margin-right:20px' >
     
     {% for event in events %}
@@ -40,10 +39,11 @@
     {%endfor%}
 </div>
 
-<h2 style='margin-left:20px;'>Feature venues</h2>
+<h2 style='margin-left:20px;'>Spotlight Venues</h2>
 <div class="row" style='margin-top:20px; margin-left:20px; margin-right:20px' >
     {% for venue in venues %}
     <div class="col-md-4">
+        <img class="card-img-top" src={{venue.image_url}} alt="Card image cap">
         <div style="margin-bottom: 5px" class="card text-center bg-dark">
             <div class="card-body">
                 <h5 class="card-title">{{venue.name}}</h5>
