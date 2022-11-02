@@ -17,8 +17,8 @@ login_manager = LoginManager(app)
 login_manager.login_view = 'login'
 login_manager.login_message_category = 'info'
 #Routes and model
-from App import routes
-from App import models
+from APP import routes
+from APP import models
 
 def insertDummyData():
     with app.app_context():
