@@ -1,0 +1,51 @@
+*{
+    margin:0;
+    padding:0;
+    box-sizing: border-box;
+}
+.allButFooter{
+    min-height: calc(100vh-40px);
+}
+.card-event a:hover{
+    color: #fff;
+    text-decoration: none;
+}
+.custom-width{
+    width:150%;
+}
+.custom-container-login{
+    background-color:#2B65EC;
+}
+.custom-button{
+    margin-top:5rem;
+}
+/* footer at the bottom of the page without the scrollbar */
+html, body {
+    height: 100%;
+}
+body {
+    display: flex;
+    flex-direction: column;
+}
+#main {
+    flex: 1 0 auto;
+}
+#footer {
+    flex: 0 0 auto;
+}
+
+
+
+.image-container-custom{
+    min-height: 100%;
+    display: flex;
+    flex-flow:column wrap;
+    justify-content: center;
+}
+.image-container-custom:before{
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    overflow: hidden;
+    opacity:0.1;
+}

@@ -1,33 +1,44 @@
-{% extends 'base.html'%}
+{% extends 'base.html'%} {% block title %} Login {% endblock %} {% block content
+%}
 
-{% block title %}
-Login
-{% endblock %}
-
-
-{% block content %}
-
-<body class='text-center'>
-    <div class = 'container'>
-        <br>
-        <h1> Please login</h1>
-        <br>
-        <form method="POST" class = "form-signin" style="color:white">
-            {{ form.hidden_tag() }}
-
-            {{ form.username.label() }}
-            {{ form.username(class="form-control", placeholder = "Username") }}
-            {{ form.password.label() }}
-            {{ form.password(class="form-control", placeholder = "Password") }}
-
-            <br>
-            <div class = 'checkbox mb-3'>
-                <h6>New? Register now!</h6>
-                <a class='btn btn-sm btn-secondary' href="{{url_for('register')}}">Register</a>
-            </div>
-            {{form.submit(class='btn btn-lg btn-block btn-primary')}}
-
-        </form>
+<body class="text-center">
+  <div
+    class="container d-flex"
+    style="margin-top: 10%; margin-left: auto; margin-right: auto; height: 60%; width:50%"
+  >
+    <div
+      class="container-fluid text-center image-container-custom"
+      style="
+        width: 40%;
+        height: 100%;
+        background-image: url('/static/images/stockimagestadium-1.jpeg');
+      "
+    >
+      <h4>Welcome Back</h4>
+      <h3>Log in to Get Started</h3>
     </div>
-</body>
+    <div
+      class="container-fluid text-center d-flex flex-column justify-content-center align-items-start custom-container-login"
+      style="width: 60%; height: 100%"
+    >
+      <h1>Login</h1>
+      <br />
+      <form method="POST" class="form-signin" style="color: white">
+        {{ form.hidden_tag() }} {{ form.username.label() }} {{
+        form.username(class="form-control custom-width", placeholder =
+        "Username") }} {{ form.password.label() }} {{
+        form.password(class="form-control custom-width", placeholder =
+        "Password") }}
+
+        <br />
+        <div class="checkbox mb-3">
+          <h6>New? Register now!</h6>
+          <a class="btn btn-sm btn-secondary" href="{{url_for('register')}}"
+            >Register</a
+          >
+        </div>
+        {{form.submit(class='btn btn-lg btn-block btn-primary custom-button')}}
+      </form>
+    </div>
+  </body>
 {% endblock %}

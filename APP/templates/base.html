@@ -15,9 +15,11 @@
       integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2"
       crossorigin="anonymous"
     />
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
     <title>{% block title %} {% endblock %}</title>
   </head>
   <body>
+    <div class="allButFooter">
     <nav
       class="navbar navbar-expand-md navbar-dark sticky-top"
       style="background-color: #2b65ec"
@@ -58,7 +60,7 @@
 
       <ul class="navbar-nav">
         <li class="nav-item">
-            <a class="nav-link" href="{{url_for('home')}}">Login</a>
+            <a class="nav-link" href="{{url_for('login')}}">Login</a>
         </li>
         <li class="nav-item">
             <a class="nav-link" href="{{ url_for('home')}}">Register</a>
@@ -79,6 +81,7 @@
        {% endfor %}
     {% endif %}
   {% endwith %}
+      
       {% block content %}
 
       {% endblock %}
@@ -92,6 +95,7 @@
       <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
       <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
       <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
+      </div>
    </body>
    <style>
       body {
@@ -102,7 +106,7 @@
    <!-- Remove the container if you want to extend the Footer to full width. -->
 <br>
 <!-- need to change the button layouts and the color -->
-    <footer class="text-center text-white",style="background-color: #212121">
+    <footer class="text-center text-white footer-custom",style="background-color: #212121">
     <!-- Grid container -->
     <div class="container p-4 pb-0">
       <!-- Section: Social media -->
@@ -126,6 +130,6 @@
     </div>
     <!-- Copyright -->
   </footer>
-    
+</div>    
   <!-- End of .container -->
 </html>

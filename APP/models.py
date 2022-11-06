@@ -1,5 +1,5 @@
 from flask_login import UserMixin, AnonymousUserMixin
-from App import bcrypt, login_manager, db
+from APP import bcrypt, login_manager, db
 
 
 @login_manager.user_loader
