@@ -4,7 +4,7 @@
 <body class="text-center">
   <div
     class="container d-flex"
-    style="margin-top: 10%; margin-left: auto; margin-right: auto; height: 60%; width:50%"
+    style="margin-top: 5.75%; margin-left: auto; margin-right: auto; height: 60%; width:50%"
   >
     <div
       class="container-fluid text-center image-container-custom"
@@ -24,9 +24,9 @@
       <h1>Login</h1>
       <br />
       <form method="POST" class="form-signin" style="color: white">
-        {{ form.hidden_tag() }} {{ form.username.label() }} {{
+        {{ form.hidden_tag() }} {{ form.username.label(class="custom-form-name") }} {{
         form.username(class="form-control custom-width", placeholder =
-        "Username") }} {{ form.password.label() }} {{
+        "Username") }} {{ form.password.label(class="custom-form-name") }} {{
         form.password(class="form-control custom-width", placeholder =
         "Password") }}
 

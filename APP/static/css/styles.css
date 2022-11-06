@@ -20,6 +20,11 @@
 .custom-button{
     margin-top:5rem;
 }
+.custom-form-name{
+    display: flex;
+    justify-content: start;
+
+}
 /* footer at the bottom of the page without the scrollbar */
 html, body {
     height: 100%;
