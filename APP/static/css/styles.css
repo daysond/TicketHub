@@ -11,7 +11,8 @@
     text-decoration: none;
 }
 .custom-width{
-    width:150%;
+    width:100%;
+    overflow:hidden;
 }
 .custom-container-login{
     background-color:#2B65EC;
