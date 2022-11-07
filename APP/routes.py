@@ -9,8 +9,11 @@ from APP import db
 @app.route('/')
 @app.route('/home')
 def home():
-    feat_venues = Venue.query.all() #filter by feature
-    feat_events = Event.query.all()
+    # feat_venues = Venue.query.all() #filter by feature
+    # feat_events = Event.query.all()
+    feat_venues = Venue.query.filter_by(featured=True) #filter by feature
+    feat_events = Event.query.filter_by(featured=True)
+    
     return render_template('home.html', venues = feat_venues, events = feat_events)
 
 
@@ -19,6 +22,10 @@ def venue():
     print('called venue')
     return 'Venues'
 
+@app.route('/events')
+def events():
+    all_events = Event.query.all()
+    return render_template('events.html', events = all_events)
 
 @app.route('/login', methods = ['GET', 'POST'])
 def login():

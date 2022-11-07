@@ -66,7 +66,7 @@ class Venue(db.Model):
     image_url = db.Column(db.String(length=1024), nullable=False)
     sections = db.relationship('Venue_Section', back_populates='venue')
     events = db.relationship('Event', back_populates='venue')
-
+    featured = db.Column(db.Boolean(), nullable=True, default=False)
     def __repr__(self):
         return f'Username: {self.name}'
 
@@ -79,7 +79,7 @@ class Event(db.Model):
                             nullable=False, unique=True)
     availablePercentage = db.Column(db.Integer, nullable=True, default=100)
     image_url = db.Column(db.String(length=2048), nullable=False)
-    
+    featured = db.Column(db.Boolean(), nullable=True, default=False)
     venue_id = db.Column(db.Integer, db.ForeignKey(Venue.id))
     venue = db.relationship("Venue", back_populates='events')
 

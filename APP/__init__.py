@@ -35,9 +35,11 @@ def insertDummyData():
 
             models.Venue(name='Air Canada Center',
                          address='40 Bay St., Toronto',
+                         featured=True,
                          image_url = 'https://hub.musicpeaks.com/sites/default/files/Air%20Canada%20Centre%2C%20Toronto.jpeg'),
             models.Venue(name='Sony Center', address='1 Front St E, Toronto', image_url = 'https://mapio.net/images-p/12240077.jpg'),
             models.Venue(name='Rogers Center',
+                         featured=True,
                          address='1 Blue Jays Way, Toronto', image_url = 'https://img.mlbstatic.com/mlb-images/image/private/t_16x9/t_w2208/mlb/i6su9anj3vijyern9bao.jpg'),
 
             models.Concert(name='Ed Sheeran + - = ÷ x Tour',
@@ -58,7 +60,8 @@ def insertDummyData():
                              name='Rogers Center').first().id,
                          description='Sat 6:00pm',
                          image_url = 'https://readdork.com/wp-content/uploads/2022/10/Ed-Sheeran-Tour-Cropped-2023.jpg',
-                         emc_id=models.EMC.query.filter_by(name='INK EVENTS').first().id),
+                         emc_id=models.EMC.query.filter_by(name='INK EVENTS').first().id,
+                         featured=True),
 
             models.Event(date=datetime.date(2023, 6, 18), concert_id=models.Concert.query.filter_by(
                             name='Ed Sheeran + - = ÷ x Tour').first().id,
@@ -76,7 +79,7 @@ def insertDummyData():
                          description='Fri 8:00pm',
                          image_url = 'https://edm.com/.image/ar_1:1%2Cc_fill%2Ccs_srgb%2Cfl_progressive%2Cq_auto:good%2Cw_1200/MTg5Mzg0MzcyODg4MDIwODg1/279912798_554688012687989_7371472378482916394_n-e1651905549299-696x522.jpg',
                          emc_id=models.EMC.query.filter_by(
-                name='INK EVENTS').first().id
+                name='INK EVENTS').first().id, featured=True
             ),
             models.Event(date=datetime.date(2022, 12, 18),
                          concert_id=models.Concert.query.filter_by(
@@ -86,7 +89,7 @@ def insertDummyData():
                 description='Sat 8:00pm',
                 image_url = 'https://newsroom.mohegansun.com/wp-content/uploads/2019/02/Chainsmokers_ADMAT_COLOR_crop-300x292.jpg',
                 emc_id=models.EMC.query.filter_by(
-                name='GTA EVENTS').first().id
+                name='GTA EVENTS').first().id, featured=True
             )
         ]
 
@@ -148,4 +151,4 @@ def insertDummyData():
         print('Finished populating data')
 
 
-# insertDummyData()
+insertDummyData()

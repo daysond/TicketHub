@@ -1,17 +1,11 @@
-{% extends 'base.html'%} {% block title %} Purchase Ticket {% endblock %} {%
-block content %}
+{% extends 'base.html'%} {% block title %} Purchase Ticket {% endblock %} 
+
+{%block content %}
 <h4 class="text-center">Select The Tickets For {{event.concert.name}} ?</h4>
 <div class="center" style="width: 150px; margin: 40px auto">
   <form method="POST">
-    {{ purchase_form.hidden_tag() }}
-    <input
-      id="purchase_ticket"
-      name="purchase_ticket"
-      type="hidden"
-      value="{{event.id}}"
-    />
-    {{purchase_form.submit(class="btn btn-outline-success btn-block")}} {% for
-    seating in event.seatings|sort(attribute='price') %}
+
+    {% for seating in event.seatings|sort(attribute='price') %}
     <br />
     <h4>{{seating.venue_section.sec_name}} ${{seating.price}}</h4>
     {% if seating.venue_section.num_of_seats*seat_percentage|int - seating.seats_sold <= 0 %}
@@ -32,6 +26,15 @@ block content %}
     {% endif %}
 
     {%endfor%}
+    <br />
+    {{ purchase_form.hidden_tag() }}
+    <input
+      id="purchase_ticket"
+      name="purchase_ticket"
+      type="hidden"
+      value="{{event.id}}"
+    />
+    {{purchase_form.submit(class="btn btn-outline-success btn-block")}} 
   </form>
 </div>
 <meta id="numSeats" data-len="{{event.seatings|length}}" />
