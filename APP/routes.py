@@ -68,6 +68,13 @@ def register():
 def purchase_ticket(event_id):
     purchase_form = PurchaseForm()
     event = Event.query.filter_by(id=event_id).first()
+    
+    seat_percentage = float(event.availablePercentage)/100.0
+    
+    #TODO: TEST CODE, comment out after debugging
+    seat_percentage = 0.0
+    print(f"seat_percentage: {seat_percentage}")
+    
     if request.method == 'POST':
       
         event_id = request.form.get("purchase_ticket")
@@ -86,7 +93,7 @@ def purchase_ticket(event_id):
         db.session.add_all(cart)
         db.session.commit()
         
-    return render_template('ticket.html', purchase_form = purchase_form, event = event)
+    return render_template('ticket.html', purchase_form = purchase_form, event = event, seat_percentage = seat_percentage)
 
 @app.route('/checkout', methods=['GET','POST'])
 def checkout():
