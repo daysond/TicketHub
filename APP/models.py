@@ -25,8 +25,8 @@ class User(db.Model, UserMixin):
         return self.password
     
     @password.setter
-    def password(self, psw):
-        return self.password.generate_password_hash(psw).decode('Utf-8') 
+    def password(self, psw_text):
+        self.password_hash = bcrypt.generate_password_hash(psw_text).decode('Utf-8')   
         
     def check_password(self, attempted_psw):
         return self.password_hash == attempted_psw or bcrypt.check_password_hash(self.password_hash, attempted_psw)
