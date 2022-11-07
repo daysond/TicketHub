@@ -1,0 +1,16 @@
+{% extends 'base.html'%}
+
+{% block title %}
+All Venues
+{% endblock %}
+
+
+{% block content %}
+
+<body class='text-center'>
+    HI venues
+    {% for venue in venues %}
+    <h2>{{venues.name}}</h2>
+    {% endfor %}
+</body>
+{% endblock %}

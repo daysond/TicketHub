@@ -18,9 +18,9 @@ def home():
 
 
 @app.route('/venues')
-def venue():
-    print('called venue')
-    return 'Venues'
+def venues():
+    all_venues = Venue.query.all() 
+    return render_template('venues.html', events = all_venues)
 
 @app.route('/events')
 def events():
