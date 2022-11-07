@@ -25,6 +25,11 @@
     justify-content: start;
 
 }
+.temporary-image{
+    width:100%;
+    height:50%;
+}
+.
 /* footer at the bottom of the page without the scrollbar */
 html, body {
     height: 100%;
