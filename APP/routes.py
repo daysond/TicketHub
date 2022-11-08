@@ -79,7 +79,7 @@ def purchase_ticket(event_id):
     seat_percentage = float(event.availablePercentage)/100.0
     
     #TODO: TEST CODE, comment out after debugging
-    seat_percentage = 0.0
+    # seat_percentage = 0.0
     print(f"seat_percentage: {seat_percentage}")
     
     if request.method == 'POST':
