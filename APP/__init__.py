@@ -1,16 +1,23 @@
 
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
+from flask_bcrypt import Bcrypt
+from flask_login import LoginManager
 import datetime
 
 app = Flask(__name__)
 db = SQLAlchemy()
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database.db'
 app.config['SECRET_KEY'] = 'cf2ad42be998f16d0c0e6596'
+app.config['STRIPE_PUBLIC_KEY'] = 'pk_test_KMCerPRQaKzAv45qvFR58Vnl00Ccaf8NiN'
+app.config['STRIPE_SECRET_KEY'] = 'sk_test_Gaah29dliX1UUMIe3a6OAqqO00OQIP9EWO'
 db.init_app(app)
-
+bcrypt = Bcrypt(app)
+login_manager = LoginManager(app)
+login_manager.login_view = 'login'
+login_manager.login_message_category = 'info'
 #Routes and model
-from APP import models, routes
+from APP import routes
 from APP import models
 
 def insertDummyData():
@@ -27,10 +34,11 @@ def insertDummyData():
             models.EMC(name='GTA EVENTS', balance=0),
 
             models.Venue(name='Air Canada Center',
-                         address='40 Bay St., Toronto'),
-            models.Venue(name='Sony Center', address='1 Front St E, Toronto'),
+                         address='40 Bay St., Toronto',
+                         image_url = 'https://hub.musicpeaks.com/sites/default/files/Air%20Canada%20Centre%2C%20Toronto.jpeg'),
+            models.Venue(name='Sony Center', address='1 Front St E, Toronto', image_url = 'https://mapio.net/images-p/12240077.jpg'),
             models.Venue(name='Rogers Center',
-                         address='1 Blue Jays Way, Toronto'),
+                         address='1 Blue Jays Way, Toronto', image_url = 'https://img.mlbstatic.com/mlb-images/image/private/t_16x9/t_w2208/mlb/i6su9anj3vijyern9bao.jpg'),
 
             models.Concert(name='Ed Sheeran + - = ÷ x Tour',
                            artist='Ed Sheeran'),
@@ -49,6 +57,7 @@ def insertDummyData():
                          venue_id=models.Venue.query.filter_by(
                              name='Rogers Center').first().id,
                          description='Sat 6:00pm',
+                         image_url = 'https://readdork.com/wp-content/uploads/2022/10/Ed-Sheeran-Tour-Cropped-2023.jpg',
                          emc_id=models.EMC.query.filter_by(name='INK EVENTS').first().id),
 
             models.Event(date=datetime.date(2023, 6, 18), concert_id=models.Concert.query.filter_by(
@@ -56,6 +65,7 @@ def insertDummyData():
                          venue_id=models.Venue.query.filter_by(
                              name='Rogers Center').first().id,
                          description='Sun 6:00pm',
+                         image_url = 'https://readdork.com/wp-content/uploads/2022/10/Ed-Sheeran-Tour-Cropped-2023.jpg',
                          emc_id=models.EMC.query.filter_by(name='INK EVENTS').first().id),
 
             models.Event(date=datetime.date(2023, 5, 18),
@@ -64,6 +74,7 @@ def insertDummyData():
                          venue_id=models.Venue.query.filter_by(
                              name='Sony Center').first().id,
                          description='Fri 8:00pm',
+                         image_url = 'https://edm.com/.image/ar_1:1%2Cc_fill%2Ccs_srgb%2Cfl_progressive%2Cq_auto:good%2Cw_1200/MTg5Mzg0MzcyODg4MDIwODg1/279912798_554688012687989_7371472378482916394_n-e1651905549299-696x522.jpg',
                          emc_id=models.EMC.query.filter_by(
                 name='INK EVENTS').first().id
             ),
@@ -73,6 +84,7 @@ def insertDummyData():
                 venue_id=models.Venue.query.filter_by(
                 name='Air Canada Center').first().id,
                 description='Sat 8:00pm',
+                image_url = 'https://newsroom.mohegansun.com/wp-content/uploads/2019/02/Chainsmokers_ADMAT_COLOR_crop-300x292.jpg',
                 emc_id=models.EMC.query.filter_by(
                 name='GTA EVENTS').first().id
             )

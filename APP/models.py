@@ -1,6 +1,15 @@
-from APP import db
-from flask_login import UserMixin
+from flask_login import UserMixin, AnonymousUserMixin
+from APP import bcrypt, login_manager, db
 
+
+@login_manager.user_loader
+def load_user(user_id):
+    return User.query.get(int(user_id))
+
+class AnonymousUser(AnonymousUserMixin):
+    id = -1
+
+login_manager.anonymous_user = AnonymousUser
 
 class User(db.Model, UserMixin):
 
@@ -11,6 +20,17 @@ class User(db.Model, UserMixin):
 
     tickets = db.relationship("Ticket", back_populates="user")
 
+    @property
+    def password(self):
+        return self.password
+    
+    @password.setter
+    def password(self, psw):
+        return self.password.generate_password_hash(psw).decode('Utf-8') 
+        
+    def check_password(self, attempted_psw):
+        return self.password_hash == attempted_psw or bcrypt.check_password_hash(self.password_hash, attempted_psw)
+    
     def __repr__(self):
         return f'Username: {self.name}'
 
@@ -43,7 +63,7 @@ class Venue(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(length=64), nullable=False, unique=True)
     address = db.Column(db.String(length=255), nullable=False, unique=True)
-
+    image_url = db.Column(db.String(length=1024), nullable=False)
     sections = db.relationship('Venue_Section', back_populates='venue')
     events = db.relationship('Event', back_populates='venue')
 
@@ -58,7 +78,8 @@ class Event(db.Model):
     description = db.Column(db.String(length=1024),
                             nullable=False, unique=True)
     availablePercentage = db.Column(db.Integer, nullable=True, default=100)
-
+    image_url = db.Column(db.String(length=2048), nullable=False)
+    
     venue_id = db.Column(db.Integer, db.ForeignKey(Venue.id))
     venue = db.relationship("Venue", back_populates='events')
 

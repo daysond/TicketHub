@@ -1,13 +1,127 @@
 from APP import app
-from flask import render_template, redirect, url_for, flash, get_flashed_messages, request
-from flask_login import login_user, logout_user, login_required, current_user
-from APP.models import Concert, User
-# from App.forms import RegisterForm, LoginForm, PurchaseForm
+from flask import render_template, redirect, url_for, flash, request
+from flask_login import login_user, logout_user, current_user
+from APP.models import User, Venue, Event, Ticket
+from APP.forms import PurchaseForm, LoginForm, RegisterForm
 from APP import db
 
 
 @app.route('/')
 @app.route('/home')
 def home():
-    print('called home')
-    return render_template('home.html')
+    feat_venues = Venue.query.all() #filter by feature
+    feat_events = Event.query.all()
+    return render_template('home.html', venues = feat_venues, events = feat_events)
+
+
+@app.route('/venues')
+def venue():
+    print('called venue')
+    return 'Venues'
+
+@app.route('/events')
+def event():
+    print('called event')
+    return render_template('events.html')
+
+@app.route('/login', methods = ['GET', 'POST'])
+def login():
+    form = LoginForm()
+    if form.validate_on_submit():
+        attempted_user = User.query.filter_by(name=form.username.data).first()
+        if attempted_user and attempted_user.check_password(form.password.data):
+            login_user(attempted_user)
+            flash(f'Login successfully. Welcome {attempted_user.name}' , category = 'success')
+            return redirect(url_for('home'))
+        else:
+            flash(f'Wrong username or password. Please try again!' , category = 'danger')
+        
+    return render_template('login.html', form = form)
+
+
+@app.route('/logout', methods = ['GET', 'POST'])
+def logout():
+    logout_user()
+    flash(f'Log out successfully.' , category = 'info') 
+    return redirect(url_for('home'))
+
+
+@app.route('/register', methods = ['GET', 'POST'])
+def register():
+    form = RegisterForm()
+    if form.validate_on_submit():
+        new_user = User(name=form.username.data,
+                        email=form.email_address.data,
+                        password=form.password.data)
+        print("creating new user")
+        db.session.add(new_user)
+        db.session.commit()
+        login_user(new_user)
+        flash(f'Welcome {new_user.name}!' , category = 'success')
+        
+        return redirect(url_for('home'))
+    if form.errors != {}:
+        for err in form.errors.values():
+            print(f'Error: {err}')
+            flash(f'Error: {err}')
+            
+    return render_template('register.html', form = form)
+
+
+@app.route('/purchase_ticket/<event_id>', methods=['GET', 'POST'])
+def purchase_ticket(event_id):
+    purchase_form = PurchaseForm()
+    event = Event.query.filter_by(id=event_id).first()
+    
+    seat_percentage = float(event.availablePercentage)/100.0
+    
+    #TODO: TEST CODE, comment out after debugging
+    #seat_percentage = 0
+    print(f"seat_percentage: {seat_percentage}")
+    
+    if request.method == 'POST':
+      
+        event_id = request.form.get("purchase_ticket")
+
+        cart = [] #list of tickets
+        
+        for seating in event.seatings:
+            seating_qty = int(request.form.get(str(seating.id)))
+            
+            for i in range(0, seating_qty):
+                print(f'buying seat id {seating.id} {i} /{seating_qty}')
+                cart.append(Ticket(seating_id = seating.id, user_id = current_user.id))
+                
+            print(f"bought {seating_qty} ticket for seating {seating.venue_section.sec_name}")
+            seating.seats_sold = seating.seats_sold + seating_qty
+        db.session.add_all(cart)
+        db.session.commit()
+        
+    return render_template('ticket.html', purchase_form = purchase_form, event = event, seat_percentage = seat_percentage)
+
+@app.route('/checkout', methods=['GET','POST'])
+def checkout():
+    return render_template('checkout.html')
+"""
+implement a shopping cart, check out, payment,  ect 
+
+    for(let i = 0; i<numSeats;i++) {
+        const minusButton = document.getElementById('minus_'.concat({{event.seatings[i].id|safe}}));
+        const plusButton = document.getElementById('plus_'.concat({{event.seatings[i].id|safe}}));
+        const inputField = document.getElementById({{event.seatings[i].id|safe}});
+
+        minusButton.addEventListener('click', event => {
+            event.preventDefault();
+            const currentValue = Number(inputField.value) || 0;
+            if(currentValue>0)
+                inputField.value = currentValue - 1;
+            });
+    
+        plusButton.addEventListener('click', event => {
+            event.preventDefault();
+            const currentValue = Number(inputField.value) || 0;
+            if(currentValue<4)
+                inputField.value = currentValue + 1;
+            });
+    }
+"""
