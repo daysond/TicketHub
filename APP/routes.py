@@ -1,7 +1,7 @@
 from APP import app
-from flask import render_template, redirect, url_for, flash, get_flashed_messages, request
-from flask_login import login_user, logout_user, login_required, current_user
-from APP.models import Concert, User, Venue, Event, Ticket, Seating
+from flask import render_template, redirect, url_for, flash, request
+from flask_login import login_user, logout_user, current_user
+from APP.models import User, Venue, Event, Ticket
 from APP.forms import PurchaseForm, LoginForm, RegisterForm
 from APP import db
 
@@ -19,6 +19,10 @@ def venue():
     print('called venue')
     return 'Venues'
 
+@app.route('/events')
+def event():
+    print('called event')
+    return render_template('events.html')
 
 @app.route('/login', methods = ['GET', 'POST'])
 def login():
@@ -72,7 +76,7 @@ def purchase_ticket(event_id):
     seat_percentage = float(event.availablePercentage)/100.0
     
     #TODO: TEST CODE, comment out after debugging
-    seat_percentage = 0.0
+    #seat_percentage = 0
     print(f"seat_percentage: {seat_percentage}")
     
     if request.method == 'POST':
