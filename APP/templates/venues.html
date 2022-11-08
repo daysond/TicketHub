@@ -1,16 +1,16 @@
 {% extends 'base.html'%}
 
 {% block title %}
-Events
+All Venues
 {% endblock %}
 
 
 {% block content %}
 
 <body class='text-center'>
-    HI EVENTS
-    {% for event in events %}
-    <h2>{{event.concert.name}}</h2>
+    HI venues
+    {% for venue in venues %}
+    <h2>{{venues.name}}</h2>
     {% endfor %}
 </body>
 {% endblock %}

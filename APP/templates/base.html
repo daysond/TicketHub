@@ -45,10 +45,10 @@
       <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav mr-auto">
         <li class="nav-item">
-            <a class="nav-link" href="{{ url_for('home') }}">Events</a>
+            <a class="nav-link" href="{{ url_for('events') }}">Events</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="{{ url_for('venue') }}">Venues</a>
+            <a class="nav-link" href="{{ url_for('venues') }}">Venues</a>
         </li>
     </ul>
     {%if current_user.is_authenticated %}

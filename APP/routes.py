@@ -1,7 +1,7 @@
 from APP import app
-from flask import render_template, redirect, url_for, flash, request
-from flask_login import login_user, logout_user, current_user
-from APP.models import User, Venue, Event, Ticket
+from flask import render_template, redirect, url_for, flash, get_flashed_messages, request
+from flask_login import login_user, logout_user, login_required, current_user
+from APP.models import Concert, User, Venue, Event, Ticket, Seating
 from APP.forms import PurchaseForm, LoginForm, RegisterForm
 from APP import db
 
@@ -9,20 +9,23 @@ from APP import db
 @app.route('/')
 @app.route('/home')
 def home():
-    feat_venues = Venue.query.all() #filter by feature
-    feat_events = Event.query.all()
+    # feat_venues = Venue.query.all() #filter by feature
+    # feat_events = Event.query.all()
+    feat_venues = Venue.query.filter_by(featured=True) #filter by feature
+    feat_events = Event.query.filter_by(featured=True)
+    
     return render_template('home.html', venues = feat_venues, events = feat_events)
 
 
 @app.route('/venues')
-def venue():
-    print('called venue')
-    return 'Venues'
+def venues():
+    all_venues = Venue.query.all() 
+    return render_template('venues.html', events = all_venues)
 
 @app.route('/events')
-def event():
-    print('called event')
-    return render_template('events.html')
+def events():
+    all_events = Event.query.all()
+    return render_template('events.html', events = all_events)
 
 @app.route('/login', methods = ['GET', 'POST'])
 def login():
@@ -76,7 +79,7 @@ def purchase_ticket(event_id):
     seat_percentage = float(event.availablePercentage)/100.0
     
     #TODO: TEST CODE, comment out after debugging
-    #seat_percentage = 0
+    seat_percentage = 0.0
     print(f"seat_percentage: {seat_percentage}")
     
     if request.method == 'POST':
