@@ -1,35 +1,46 @@
-{% extends 'base.html'%}
+{% extends 'base.html'%} {% block title %} Register {% endblock %} {% block
+content %}
 
-{% block title %}
-Register
-{% endblock %}
-
-
-{% block content %}
-
-<body class='text-center'>
-    <div class = 'container'>
-        <br>
-        <h1> Please register</h1>
-        <br>
-        <form method="POST" class = "form-register" style="color:white">
-            {{ form.hidden_tag() }}
-            {{ form.username.label() }}
-            {{ form.username(class="form-control", placeholder = "Username") }}
-            {{ form.email_address.label() }}
-            {{ form.email_address(class="form-control", placeholder = "Email") }}
-            {{ form.password.label() }}
-            {{ form.password(class="form-control", placeholder = "Password") }}
-            {{ form.confirm.label() }}
-            {{ form.confirm(class="form-control", placeholder = "Confirm") }}
-            <br>
-            <div class = 'checkbox mb-3'>
-                <h6>Already have an account? Login now!</h6>
-                <a class='btn btn-sm btn-secondary' href="{{url_for('login')}}">Login</a>
-            </div>
-            {{form.submit(class='btn btn-lg btn-block btn-primary')}}
-
-        </form>
+<body class="text-center">
+  <div class="container d-flex custom-container-register" style="padding: 0">
+    <div
+      class="container-fluid text-center image-container-custom"
+      style="
+        width: 60%;
+        height: 100%;
+        background-image: url('/static/images/stockimagestadium-1.jpeg');
+        background-size: cover;
+        background-repeat: no-repeat;
+        color: #fff;
+      "
+    >
+      <h4>Welcome!</h4>
+      <h3>Sign Up To Get Started</h3>
     </div>
+    <div class="container">
+      <br />
+      <h1 style="text-align: left">Register</h1>
+      <h6 class="Register-heading" style="text-align: left">
+        Already have an account?<a href="{{url_for('login')}}"> Login now!</a>
+      </h6>
+      <br />
+      <form method="POST" class="form-register" style="color: white">
+        {{ form.hidden_tag() }} {{ form.username.label(class="custom-form-width
+        custom-form-name") }} {{ form.username(class="form-control
+        custom-width", placeholder = "Username") }} {{
+        form.email_address.label(class="custom-form-width custom-form-name") }}
+        {{ form.email_address(class="form-control custom-width", placeholder =
+        "Email") }} {{ form.password.label(class="custom-form-width
+        custom-form-name") }} {{ form.password(class="form-control
+        custom-width", placeholder = "Password") }} {{
+        form.confirm.label(class="custom-form-width custom-form-name") }} {{
+        form.confirm(class="form-control custom-width", placeholder = "Confirm")
+        }}
+        <br />
+        {{form.submit(class='btn btn-lg btn-block btn-primary
+        custom-button-register')}}
+      </form>
+    </div>
+  </div>
 </body>
 {% endblock %}

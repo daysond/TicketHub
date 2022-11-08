@@ -9,9 +9,7 @@ from APP import db
 @app.route('/')
 @app.route('/home')
 def home():
-    # feat_venues = Venue.query.all() #filter by feature
-    # feat_events = Event.query.all()
-    feat_venues = Venue.query.filter_by(featured=True) #filter by feature
+    feat_venues = Venue.query.filter_by(featured=True)
     feat_events = Event.query.filter_by(featured=True)
     
     return render_template('home.html', venues = feat_venues, events = feat_events)

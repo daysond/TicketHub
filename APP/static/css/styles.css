@@ -14,6 +14,17 @@
     width:100%;
     overflow:hidden;
 }
+.custom-container-register{
+    background-color:#2B65EC;
+    color:#FFF;
+    margin-top:2rem;
+    width:50%;
+    height:68vh;
+}
+.custom-container-register .custom-width {
+    width:80%;
+
+}
 .custom-container-login{
     background-color:#2B65EC;
 }
@@ -29,7 +40,25 @@
     width:100%;
     height:50%;
 }
-.
+
+.custom-button-register{
+    margin-bottom:2rem;
+}
+.Register-heading a{
+    text-decoration: none;
+    color:#000;
+}
+.Register-heading a:hover{
+    color:#fff;
+}
+.sign-in-form a{
+    color:#000;
+    text-decoration: none;
+
+}
+.sign-in-form a:hover{
+    color:#fff;
+}
 /* footer at the bottom of the page without the scrollbar */
 html, body {
     height: 100%;

@@ -31,11 +31,12 @@
         "Password") }}
 
         <br />
-        <div class="checkbox mb-3">
-          <h6>New? Register now!</h6>
-          <a class="btn btn-sm btn-secondary" href="{{url_for('register')}}"
-            >Register</a
+        <div class="checkbox mb-3 sign-in-form" style="text-align:left">
+          <h6>New?
+          <a href="{{url_for('register')}}"
+            >Register Now!</a
           >
+          </h6>
         </div>
         {{form.submit(class='btn btn-lg btn-block btn-primary custom-button')}}
       </form>
