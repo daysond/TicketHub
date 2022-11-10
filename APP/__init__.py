@@ -95,36 +95,41 @@ def insertDummyData():
 
         db.session.add_all(events)
         print('Successfully added events')
+     
+        vc2 = 600
+        vc3710 = 800
+        vc4 = 1000
+        vc15689 = 500
         sections = [
             models.Venue_Section(venue_id=models.Venue.query.filter_by(name='Air Canada Center').first().id,
-                                 num_of_seats=500,
+                                 num_of_seats=vc15689,
                                  sec_name='floor'),
             models.Venue_Section(venue_id=models.Venue.query.filter_by(name='Air Canada Center').first().id,
-                                 num_of_seats=600,
+                                 num_of_seats=vc2,
                                  sec_name='lower level'),
             models.Venue_Section(venue_id=models.Venue.query.filter_by(name='Air Canada Center').first().id,
-                                 num_of_seats=800,
+                                 num_of_seats=vc3710,
                                  sec_name='club level'),
             models.Venue_Section(venue_id=models.Venue.query.filter_by(name='Air Canada Center').first().id,
-                                 num_of_seats=1000,
+                                 num_of_seats=vc4,
                                  sec_name='upper level'),
             models.Venue_Section(venue_id=models.Venue.query.filter_by(name='Sony Center').first().id,
-                                 num_of_seats=500,
+                                 num_of_seats=vc15689,
                                  sec_name='Premium Seats'),
             models.Venue_Section(venue_id=models.Venue.query.filter_by(name='Sony Center').first().id,
-                                 num_of_seats=500,
+                                 num_of_seats=vc15689,
                                  sec_name='Gold Seats'),
             models.Venue_Section(venue_id=models.Venue.query.filter_by(name='Sony Center').first().id,
-                                 num_of_seats=800,
+                                 num_of_seats=vc3710,
                                  sec_name='Silver Seats'),
             models.Venue_Section(venue_id=models.Venue.query.filter_by(name='Rogers Center').first().id,
-                                 num_of_seats=500,
+                                 num_of_seats=vc15689,
                                  sec_name='A Seats'),
             models.Venue_Section(venue_id=models.Venue.query.filter_by(name='Rogers Center').first().id,
-                                 num_of_seats=500,
+                                 num_of_seats=vc15689,
                                  sec_name='B Seats'),
             models.Venue_Section(venue_id=models.Venue.query.filter_by(name='Rogers Center').first().id,
-                                 num_of_seats=800,
+                                 num_of_seats=vc3710,
                                  sec_name='C Seats'),
         ]
 
@@ -143,7 +148,7 @@ def insertDummyData():
             models.Seating(event_id=4, venue_section_id=1, price=150),
             models.Seating(event_id=4, venue_section_id=2, price=500),
             models.Seating(event_id=4, venue_section_id=3, price=400),
-            models.Seating(event_id=4, venue_section_id=4, price=300),
+            models.Seating(event_id=4, venue_section_id=4, price=300)
         ]
 
         db.session.add_all(seatings)

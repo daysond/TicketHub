@@ -122,6 +122,10 @@ class Seating(db.Model):
     venue_section = db.relationship("Venue_Section", back_populates="seatings")
 
     tickets = db.relationship("Ticket", back_populates="seating")
+    
+    @property
+    def seats_available(self):
+        return int((self.venue_section.num_of_seats * float(self.event.availablePercentage)/100.0)- self.seats_sold)
 
 class Ticket(db.Model):
 

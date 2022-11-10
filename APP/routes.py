@@ -4,7 +4,7 @@ from flask_login import login_user, logout_user, login_required, current_user
 from APP.models import Concert, User, Venue, Event, Ticket, Seating
 from APP.forms import PurchaseForm, LoginForm, RegisterForm
 from APP import db
-
+from collections import namedtuple
 
 @app.route('/')
 @app.route('/home')
@@ -71,34 +71,33 @@ def register():
 
 @app.route('/purchase_ticket/<event_id>', methods=['GET', 'POST'])
 def purchase_ticket(event_id):
+    
     purchase_form = PurchaseForm()
     event = Event.query.filter_by(id=event_id).first()
     
-    seat_percentage = float(event.availablePercentage)/100.0
-    
-    #TODO: TEST CODE, comment out after debugging
-    # seat_percentage = 0.0
-    print(f"seat_percentage: {seat_percentage}")
-    
     if request.method == 'POST':
-      
-        event_id = request.form.get("purchase_ticket")
-
-        cart = [] #list of tickets
-        
+        can_purchase = True
         for seating in event.seatings:
             seating_qty = int(request.form.get(str(seating.id)))
-            
-            for i in range(0, seating_qty):
-                print(f'buying seat id {seating.id} {i} /{seating_qty}')
-                cart.append(Ticket(seating_id = seating.id, user_id = current_user.id))
-                
-            print(f"bought {seating_qty} ticket for seating {seating.venue_section.sec_name}")
-            seating.seats_sold = seating.seats_sold + seating_qty
-        db.session.add_all(cart)
-        db.session.commit()
+            if seating.seats_available < seating_qty:
+                can_purchase = False
+                flash(f'Not enough ticket available.' , category = 'danger')  
+                break 
+        if can_purchase:
+            Item = namedtuple("Item", 'seating qty')
+            items = [Item(seating, int(request.form.get(str(seating.id)))) for seating in event.seatings]
+            make_purchases(items, current_user.id)
         
-    return render_template('ticket.html', purchase_form = purchase_form, event = event, seat_percentage = seat_percentage)
+    return render_template('ticket.html', purchase_form = purchase_form, event = event)
+    
+def make_purchases(items, user_id):
+    cart = [] #list of tickets
+    for (seating, qty) in items:
+        for i in range(0, qty):
+            cart.append(Ticket(seating_id = seating.id, user_id = current_user.id))
+        seating.seats_sold += qty
+    db.session.add_all(cart)
+    db.session.commit()
 
 @app.route('/checkout', methods=['GET','POST'])
 def checkout():
