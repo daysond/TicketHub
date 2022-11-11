@@ -1,5 +1,5 @@
 from flask_login import UserMixin, AnonymousUserMixin
-from APP import bcrypt, login_manager, db
+from App import bcrypt, login_manager, db
 
 
 @login_manager.user_loader
@@ -45,7 +45,6 @@ class EMC(db.Model):
 
     events = db.relationship('Event', back_populates='emc')
 
-
 class Concert(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
@@ -56,7 +55,6 @@ class Concert(db.Model):
 
     def __repr__(self):
         return f'Username: {self.name}'
-
 
 class Venue(db.Model):
 
@@ -69,7 +67,6 @@ class Venue(db.Model):
     featured = db.Column(db.Boolean(), nullable=True, default=False)
     def __repr__(self):
         return f'Username: {self.name}'
-
 
 class Event(db.Model):
 
@@ -95,7 +92,6 @@ class Event(db.Model):
     def __repr__(self):
         return f'Event: {self.description} {self.concert.name}'
 
-
 class Venue_Section(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
@@ -106,7 +102,6 @@ class Venue_Section(db.Model):
     venue = db.relationship("Venue", back_populates='sections')
 
     seatings = db.relationship("Seating", back_populates='venue_section')
-
 
 class Seating(db.Model):
 

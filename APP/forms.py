@@ -2,7 +2,7 @@ from flask_wtf import FlaskForm
 from wtforms import StringField,PasswordField, SubmitField, ValidationError
 from wtforms.validators import DataRequired, Length,EqualTo, Email
 from wtforms import StringField,PasswordField, SubmitField, ValidationError
-from APP.models import User
+from App.models import User
 
 class PurchaseForm(FlaskForm):
     submit = SubmitField(label="Purchase Ticket")

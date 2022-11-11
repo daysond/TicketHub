@@ -1,17 +1,17 @@
-from APP import app
+from App import app
 from flask import render_template, redirect, url_for, flash, get_flashed_messages, request
 from flask_login import login_user, logout_user, login_required, current_user
-from APP.models import Concert, User, Venue, Event, Ticket, Seating
-from APP.forms import PurchaseForm, LoginForm, RegisterForm
-from APP import db
+from App.models import Concert, User, Venue, Event, Ticket, Seating
+from App.forms import PurchaseForm, LoginForm, RegisterForm
+from App import db
 from collections import namedtuple
+from decimal import *
 
 @app.route('/')
 @app.route('/home')
 def home():
     feat_venues = Venue.query.filter_by(featured=True)
     feat_events = Event.query.filter_by(featured=True)
-    
     return render_template('home.html', venues = feat_venues, events = feat_events)
 
 
@@ -96,6 +96,7 @@ def make_purchases(items, user_id):
         for i in range(0, qty):
             cart.append(Ticket(seating_id = seating.id, user_id = current_user.id))
         seating.seats_sold += qty
+        seating.event.emc.balance += Decimal(seating.price) * Decimal(qty)
     db.session.add_all(cart)
     db.session.commit()
 
