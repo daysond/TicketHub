@@ -59,6 +59,16 @@
 .sign-in-form a:hover{
     color:#fff;
 }
+.event-container{
+    width:90%;
+    height:50vh;
+    margin:2rem auto 3rem auto;
+    border-radius:20px;
+    padding:9rem;
+    color:#000;
+    font-style: italic;
+
+}
 /* footer at the bottom of the page without the scrollbar */
 html, body {
     height: 100%;
@@ -73,6 +83,7 @@ body {
 #footer {
     flex: 0 0 auto;
 }
+
 
 
 

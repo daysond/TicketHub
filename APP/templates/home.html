@@ -26,7 +26,7 @@ content %}
     </p>
     <!-- need to change the url to sign in page -->
     <!-- Get started button on the main page -->
-    <a class="btn btn-primary" href="{{ url_for('home') }}">Get Started</a>
+    <a class="btn btn-primary" href="{{ url_for('events') }}">Get Started</a>
   </div>
   <div class="product-device box-shadow d-none d-md-block"></div>
   <div
@@ -35,9 +35,9 @@ content %}
 </div>
 
 <!-- change the layout of the cards -->
-<h2 style="margin-left: 20px">Feature events</h2>
+<h2 style="margin-left:43%;">Feature events</h2>
 <div
-  class="row"
+  class="row d-flex justify-content-center"
   style="margin-top: 20px; margin-left: 20px; margin-right: 20px"
 >
 <!-- using a for loop to create a 1x4 Grid wherein we are able to add the first 4 venue cards to the the row  -->
@@ -76,9 +76,9 @@ content %}
   {%endfor%}
 </div>
 
-<h2 style="margin-left: 20px">Feature venues</h2>
+<h2 style="margin-left: 43%">Feature venues</h2>
 <div
-  class="row"
+  class="row d-flex justify-content-center"
   style="margin-top: 20px; margin-left: 20px; margin-right: 20px"
 >
   {% for venue in venues %}
