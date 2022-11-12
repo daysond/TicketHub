@@ -1,6 +1,8 @@
 
 from collections import namedtuple
 from datetime import datetime
+from decimal import *
+
 def get_menu_choice(menu=None, valid=None, submenu=None, subvalid=None):
     
     if menu is None:
@@ -18,6 +20,17 @@ def get_menu_choice(menu=None, valid=None, submenu=None, subvalid=None):
             return line+get_menu_choice(submenu, subvalid)
 
 # def get_user_input(**prompts):
+def update_menu(**prompts):
+      for key, value in prompts.items():
+        while True:
+            try:
+                line = input(f"Enter new {key} [{value[0]}] (press enter skip): ")
+                newVal = value[1](line)
+                break
+            except:
+                print(f"Please enter a valid {key}")
+                
+        
 def insert_menu(*prompts):
     obj_name = prompts[0]
     data = namedtuple('Data', [p for p in prompts[1:]])
@@ -34,9 +47,46 @@ def get_bool(prompt):
             return line.lower() == "y"               
     
 def get_date(prompt):
-    date_str = input(prompt)
-    return datetime.strptime(date_str, '%m-%d-%Y').date()
+    while True:
+        line = input(prompt)
+        if not line:
+            print("Please enter a value.")
+        else:
+            try:
+                date = datetime.strptime(line, '%m-%d-%Y').date()
+                return date
+            except ValueError:
+                print('\nPlease enter a valid date: ')
 
-def get_int(prompt):
-    line = input(prompt)
-    return line
+def get_int(prompt, minimum=None, maximum=None, default=None):
+    while True:
+        line = input(prompt)
+        if not line:
+            print("Please enter a value.")
+        if not line and default is not None:
+            return default
+        else:
+            try:
+                num = int(line)
+                if (minimum is not None and num < minimum) or (maximum is not None and num > maximum):
+                    print("Invalid choice!")
+                else:
+                    return num
+            except ValueError:
+                print('\nPlease enter a valid integer: ')
+                
+def get_decimal(prompt, minimum=None, maximum=None):
+    while True:
+        line = input(prompt)
+        if not line:
+            print("Please enter a value.")
+        else:
+            try:
+                num = Decimal(line)
+                if (minimum is not None and num < minimum) or (maximum is not None and num > maximum):
+                    print("Invalid choice!")
+                else:
+                    return num
+            except ValueError:
+                print('\nPlease enter a valid integer: ')
+        
