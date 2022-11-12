@@ -9,13 +9,11 @@
     {% for seating in event.seatings|sort(attribute='price') %}
     <br />
     <h4>{{seating.venue_section.sec_name}} ${{seating.price}}</h4>
-    {% if seating.venue_section.num_of_seats*seat_percentage|int -
-    seating.seats_sold <= 0 %}
+    {% if seating.seats_available == 0 %}
     <h5>SOLD OUT</h5>
     {% else %}
     <h5>
-      Avaliable: {{seating.venue_section.num_of_seats*seat_percentage|int -
-      seating.seats_sold}}
+      Avaliable: {{seating.seats_available}}
     </h5>
     <button
       id="minus_{{loop.index}}"
