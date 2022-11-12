@@ -10,6 +10,8 @@ def get_menu_choice(menu=None, valid=None, submenu=None, subvalid=None):
     
     while True:
         line = input(menu)
+        if line == 'q':
+            return line
         if not line:
             print("Please select one of the options.")
         if line not in valid:
@@ -19,38 +21,42 @@ def get_menu_choice(menu=None, valid=None, submenu=None, subvalid=None):
         else:
             return line+get_menu_choice(submenu, subvalid)
 
-# def get_user_input(**prompts):
-def update_menu(**prompts):
-      for key, value in prompts.items():
+def update_data(**prompts):
+    ret = {}
+    for key, value in prompts.items():
         while True:
             try:
-                line = input(f"Enter new {key} [{value[0]}] (press enter skip): ")
-                newVal = value[1](line)
+                line = input(f"Enter new {key}(Press 'Enter' to use default [{value[0]}]): ")
+                ret[key] = value[0] if not line else value[1](line)
                 break
             except:
                 print(f"Please enter a valid {key}")
-                
+    return ret
         
-def insert_menu(*prompts):
+def get_data(*prompts):
     obj_name = prompts[0]
     data = namedtuple('Data', [p for p in prompts[1:]])
     content = [input(f"Please enter the {p} of the {obj_name}: ") for p in prompts[1:]]
     return data(*content)
 
-def get_bool(prompt):
+def get_bool(prompt, default=None):
     valid = frozenset('yn')
     while True:
         line = input(prompt + '[Y/N]: ')
+        if not line and default is not None:
+            return default
         if not line or line.lower() not in valid:
             print("Please enter 'Y' or 'N'")
         else:
             return line.lower() == "y"               
     
-def get_date(prompt):
+def get_date(prompt, default=None):
     while True:
         line = input(prompt)
-        if not line:
+        if not line and default is None:
             print("Please enter a value.")
+        elif not line and default is not None:
+            return default
         else:
             try:
                 date = datetime.strptime(line, '%m-%d-%Y').date()
@@ -58,18 +64,20 @@ def get_date(prompt):
             except ValueError:
                 print('\nPlease enter a valid date: ')
 
-def get_int(prompt, minimum=None, maximum=None, default=None):
+def get_int(prompt, minimum=None, maximum=None, default=None, valid=None):
     while True:
         line = input(prompt)
-        if not line:
-            print("Please enter a value.")
         if not line and default is not None:
             return default
+        if not line:
+            print("Please enter a value.")
         else:
             try:
                 num = int(line)
                 if (minimum is not None and num < minimum) or (maximum is not None and num > maximum):
                     print("Invalid choice!")
+                elif valid is not None and num != 0 and num not in valid:
+                    print("Number enter does not match any record!")
                 else:
                     return num
             except ValueError:
