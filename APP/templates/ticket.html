@@ -1,31 +1,50 @@
-{% extends 'base.html'%} {% block title %} Purchase Ticket {% endblock %} 
-
+{% extends 'base.html'%} {% block title %} Purchase Ticket {% endblock %}
 {%block content %}
 <h4 class="text-center">Select The Tickets For {{event.concert.name}} ?</h4>
-<div class="center" style="width: 150px; margin: 40px auto">
+<div
+  class="center d-flex justify-content-center"
+  style="width: 40%; margin: 40px auto"
+>
   <form method="POST">
-
     {% for seating in event.seatings|sort(attribute='price') %}
     <br />
     <h4>{{seating.venue_section.sec_name}} ${{seating.price}}</h4>
-    {% if seating.seats_available == 0 %}
-    <h5>SOLD OUT</h5> 
+    {% if seating.venue_section.num_of_seats*seat_percentage|int -
+    seating.seats_sold <= 0 %}
+    <h5>SOLD OUT</h5>
     {% else %}
-    <h5>Avaliable: {{seating.seats_available}}</h5>
-    <button id="minus_{{loop.index}}">−</button>
+    <h5>
+      Avaliable: {{seating.venue_section.num_of_seats*seat_percentage|int -
+      seating.seats_sold}}
+    </h5>
+    <button
+      id="minus_{{loop.index}}"
+      class="btn btn-light"
+      style="border-radius: 50%; margin-right: 10px"
+    >
+      -
+    </button>
     <input
+      class="form-control"
       type="number"
       name="{{seating.id}}"
       value="0"
       id="input_{{loop.index}}"
       min="0"
       max="4"
+      style="display: inline-block; width: 100px"
     />
-    <button id="plus_{{loop.index}}">+</button>
-    <br />
-    {% endif %}
 
-    {%endfor%}
+    <button
+      id="plus_{{loop.index}}"
+      class="btn btn-light"
+      style="border-radius: 50%; margin-left: 10px"
+    >
+      +
+    </button>
+
+    <br />
+    {% endif %} {%endfor%}
     <br />
     {{ purchase_form.hidden_tag() }}
     <input
@@ -34,7 +53,7 @@
       type="hidden"
       value="{{event.id}}"
     />
-    {{purchase_form.submit(class="btn btn-outline-success btn-block")}} 
+    {{purchase_form.submit(class="btn btn-outline-success btn-block")}}
   </form>
 </div>
 <meta id="numSeats" data-len="{{event.seatings|length}}" />
@@ -58,7 +77,7 @@
           if(currentValue<4)
               inputField.value = currentValue + 1;
           });
-      
+
   }
 </script>
 
