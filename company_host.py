@@ -2,8 +2,11 @@ from App.models import User, EMC, Event, Venue, Venue_Section, Seating, Concert
 from App import db, app
 from sqlalchemy.exc import *
 from decimal import *
-import sys
-import console
+import sys, threading, queue, console, concurrent.futures
+import payment_gateway as pg
+
+num_workers = 5
+q = queue.Queue()
 
 def main():
     
@@ -111,10 +114,13 @@ def insert_event():
         return (False, None)
     
     seatings = [Seating(price=price, event_id=id, venue_section_id=sec_id) for sec_id, price in sec_price.items()]
-    db_add_all(seatings)
+    (s_ok, s_id_lst) = db_add_all(seatings)
+    
+    if s_ok:
+        stripe_upload_seatings(s_id_lst)
     
     return(ok, id)
-    
+
 def insert_concert():
     res = console.get_data('concert', 'name', 'artist')
     (ok, id) = db_add(Concert(name = res.name, artist = res.artist))
@@ -122,15 +128,41 @@ def insert_concert():
         print(f'Data saved! Concert {res.name} added! ID is {id} for you record.')
     return (ok, id)
 
+#stripe
+def stripe_upload_seating(id):
+    with app.app_context():
+        try:
+            s = Seating.query.filter_by(id=id).first()
+            name = f's_{s.id}_e_{s.event_id}_vs_{s.venue_section}'
+            price = s.price
+            descr = f'{s.event.concert.name} by {s.event.concert.artist} at {s.venue_section.venue.name} on {s.event.date}'
+            res = pg.create_prod(name, price, descr)
+            s.stripe_prod_id = res["id"]
+            s.stripe_prc_id = res["default_price"]
+            print(f"Successfully added to stripe products! ID: {res['id']}")
+            db.session.commit()
+        except Exception as e:
+            db.session.rollback()
+            print(f"Error uploading to Stripe: {e}")
+
+
+def stripe_upload_seatings(id_lst):
+    with concurrent.futures.ThreadPoolExecutor(max_workers=5) as executor:
+        executor.map(stripe_upload_seating, id_lst)
+
+            
 #Database query
 def db_add_all(data):
     with app.app_context():
         try:
             db.session.add_all(data)
+            db.session.flush()
             db.session.commit()
+            return (True, [id for id in data.id])
         except Exception as e:
             db.session.rollback()
             msg_err("Error adding all data", e)
+            return (False, None)
             
 def db_add(data):
     with app.app_context():
@@ -230,7 +262,7 @@ def show_seatings(event_id=None):
     with app.app_context():
         try:
             if event_id is None:
-                event_id = console.get_int("Please enter the event ID (0 to quit): ", 0)
+                event_id = console.get_int("Please enter the event ID (0 to quit): ", 0, valid=get_id_list(show_events))
                 if event_id == 0:
                    return
             seatings = Seating.query.filter_by(event_id = event_id)
@@ -399,7 +431,8 @@ def delete_data(data_name, data_type, display_func, *args):
         except Exception as e:
             msg_err(f"Error deleteing {data_name} data", e)
             return None
-        
+
+#TODO: use returned id to delete related data to maintain referential integrity 
 def delete_emc():
     delete_data("EMC", EMC, show_emcs)
 
@@ -443,3 +476,7 @@ def back():
     pass
 
 main()
+
+#stripe set up
+# id_lst = [x for x in range(1,14)]
+# stripe_upload_seatings(id_lst)

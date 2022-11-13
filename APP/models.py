@@ -115,6 +115,9 @@ class Seating(db.Model):
 
     venue_section_id = db.Column(db.Integer, db.ForeignKey(Venue_Section.id))
     venue_section = db.relationship("Venue_Section", back_populates="seatings")
+    
+    stripe_prod_id = db.Column(db.String)
+    stripe_prc_id = db.Column(db.String)
 
     tickets = db.relationship("Ticket", back_populates="seating")
     
